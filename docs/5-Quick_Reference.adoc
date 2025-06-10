@@ -42,31 +42,53 @@
 :StringIterate:          {api-url}/impl/utility/StringIterate.html[StringIterate]
 //
 // - RichIterable methods
+:aggregateBy:   {rich-url}#aggregateBy(org.eclipse.collections.api.block.function.Function,org.eclipse.collections.api.block.function.Function0,org.eclipse.collections.api.block.function.Function2)[aggregateBy]
+:aggregateInPlaceBy: {rich-url}#aggregateInPlaceBy(org.eclipse.collections.api.block.function.Function,org.eclipse.collections.api.block.function.Function0,org.eclipse.collections.api.block.procedure.Procedure2)[aggregateInPlaceBy]
 :allSatisfy:     {rich-url}#allSatisfy(org.eclipse.collections.api.block.predicate.Predicate)[allSatisfy]
 :anySatisfy:     {rich-url}#anySatisfy(org.eclipse.collections.api.block.predicate.Predicate)[anySatisfy]
 :appendString:   {rich-url}#appendString(java.lang.Appendable)[appendString]
 :chunk:          {rich-url}#chunk(int)[chunk]
 :collect:        {rich-url}#collect(org.eclipse.collections.api.block.function.Function)[collect]
+:collectIf:     {rich-url}#collectIf(org.eclipse.collections.api.block.predicate.Predicate,org.eclipse.collections.api.block.function.Function)[collectIf]
+:contains:      {rich-url}#contains(java.lang.Object)[contains]
+:containsAll:   {rich-url}#containsAll(java.util.Collection)[containsAll]
+:containsAllArguments: {rich-url}#containsAllArguments(java.lang.Object...)[containsAllArguments]
+:containsAllIterable: {rich-url}#containsAllIterable(java.lang.Iterable)[containsAllIterable]
 :count:          {rich-url}#count(org.eclipse.collections.api.block.predicate.Predicate)[count]
 :detect:         {rich-url}#detect(org.eclipse.collections.api.block.predicate.Predicate)[detect]
+:detectIfNone:   {rich-url}#detectIfNone(org.eclipse.collections.api.block.predicate.Predicate,java.lang.Object)[detectIfNone]
+:detectOptional: {rich-url}#detectOptional(org.eclipse.collections.api.block.predicate.Predicate)[detectOptional]
 :flatCollect:    {rich-url}#flatCollect(org.eclipse.collections.api.block.function.Function)[flatCollect]
 :forEach:        {rich-url}#forEach(org.eclipse.collections.api.block.procedure.Procedure)[forEach]
+:forEachWithIndex: {rich-url}#forEachWithIndex(org.eclipse.collections.api.block.procedure.ObjectIntProcedure)[forEachWithIndex]
 :groupBy:        {rich-url}#groupBy(org.eclipse.collections.api.block.function.Function)[groupBy]
 :groupByEach:    {rich-url}#groupByEach(org.eclipse.collections.api.block.function.Function)[groupByEach]
+:groupByUniqueKey: {rich-url}#groupByUniqueKey(org.eclipse.collections.api.block.function.Function)[groupByUniqueKey]
 :injectInto:     {rich-url}#injectInto(double,org.eclipse.collections.api.block.function.primitive.DoubleObjectToDoubleFunction)[injectInto]
+:isEmpty:       {rich-url}#isEmpty()[isEmpty]
 :makeString():   {rich-url}#makeString()[makeString()]
 :max:            {rich-url}#max(java.util.Comparator)[max]
 :maxBy:          {rich-url}#maxBy(org.eclipse.collections.api.block.function.Function)[maxBy]
 :min:            {rich-url}#min(java.util.Comparator)[min]
 :minBy:          {rich-url}#minBy(org.eclipse.collections.api.block.function.Function)[minBy]
+:noneSatisfy:    {rich-url}#noneSatisfy(org.eclipse.collections.api.block.predicate.Predicate)[noneSatisfy]
+:notEmpty:       {rich-url}#notEmpty()[notEmpty]
+:partition:      {rich-url}#partition(org.eclipse.collections.api.block.predicate.Predicate)[partition]
 :reject:         {rich-url}#reject(org.eclipse.collections.api.block.predicate.Predicate)[reject]
+:reduce:         {rich-url}#reduce(T,org.eclipse.collections.api.block.function.Function2)[reduce]
 :select:         {rich-url}#select(org.eclipse.collections.api.block.predicate.Predicate)[select]
+:selectInstanceOf: {rich-url}#selectInstanceOf(java.lang.Class)[selectInstanceOf]
+:size:           {rich-url}#size()[size]
+:tap:            {rich-url}#tap(org.eclipse.collections.api.block.procedure.Procedure)[tap]
 :toBag:          {rich-url}#toBag()[toBag()]
 :toList:         {rich-url}#toList()[toList()]
 :toMap:          {rich-url}#toMap(org.eclipse.collections.api.block.function.Function,org.eclipse.collections.api.block.function.Function)[toMap]
 :toSet:          {rich-url}#toSet()[toSet()]
+:toSortedBag:    {rich-url}#toSortedBag()[toSortedBag]
+:toSortedBagBy:  {rich-url}#toSortedBagBy(org.eclipse.collections.api.block.function.Function)[toSortedBagBy]
 :toSortedList:   {rich-url}#toSortedList(java.util.Comparator)[toSortedList]
 :toSortedListBy: {rich-url}#toSortedListBy(org.eclipse.collections.api.block.function.Function)[toSortedListBy]
+:toSortedMap:    {rich-url}#toSortedMap(org.eclipse.collections.api.block.function.Function,org.eclipse.collections.api.block.function.Function)[toSortedMap]
 :zip:            {rich-url}#zip(java.lang.Iterable)[zip]
 :zipWithIndex:   {rich-url}#zipWithIndex(R)[zipWithIndex]
 :toSortedSet:    {rich-url}#toSortedSet(java.util.Comparator)[toSortedSet]
@@ -84,6 +106,8 @@
 |===
 |{RichIterable} API +
 (except as noted)    |Description
+|*{aggregateBy}*     |Aggregates values in a collection by grouping elements using a *Function groupBy* and then applying a *Function0 zeroValueFactory* and a *Function2 combiner*. Returns a map from group keys to aggregated values.
+|*{aggregateInPlaceBy}*|Similar to *aggregateBy*, but performs aggregation in place using a mutable result container. Uses a *Function groupBy* and a *Procedure2* mutating aggregator to accumulate values without producing intermediate immutable structures.
 |*{allSatisfy}*      |Returns true if all elements satisfy a *Predicate*; short-circuits execution.
 |*{anySatisfy}*      |Returns true if any element satisfies a *Predicate*; short circuits execution.
 |*{appendString}*    |Prints a string representation of this collection onto the given Appendable; prints the string returned by *makeString*.
@@ -91,29 +115,49 @@
 |*{asUnmodifiable}** |Returns an unmodifiable collection.
 |*{chunk}*           |Splits a collection into fixed-size chunks; the final chunk will be smaller if the collection doesn't divide evenly.
 |*{collect}*         |Transforms elements using a *Function* into a new collection; n.
+|*{collectIf}*       |Filter elements of collection that match a *Predicate* and transform then using a *Function*.
+|*{contains}*        |Checks if the collection has an element that equals the given value.
+|*{containsAll}*     |Checks if the collection has all elements from another *Collection*.
+|*{containsAllArguments}*|Checks if the collection has all elements passed as individual arguments.
+|*{containsAllIterable}*|Checks if the collection has all elements from another Iterable.
 |*{count}*           |Returns the number of elements that satisfy a *Predicate*.
 |*{detect}*          |Finds the first element that satisfies a *Predicate*; short circuits execution
+|*{detectIfNone}*    |Finds the first element that satisfies a *Predicate*; returns a *Supplier* result if none found.
+|*{detectOptional}*  |Returns an *Optional* of first element that satitsfied a *Predicate*
 |*{flatCollect}*     |Transforms and flattens elements using a *Function*.
 |*{forEach}*         |Executes a *Procedure* on each element, doesn't return anything
+|*{forEachWithIndex}*|Executes a *Procedure2* for each element, passing both the element and its index position.
 |*{groupBy}*         |Gets a key for each element using a *Function* and puts the key and element into a *Multimap*.
 |*{groupByEach}*     |Special case of *groupBy* used were the *Function* returns a collection; analogous to the difference between collect and *flatCollect*.
+|*{groupByUniqueKey}*|Gets a key for each element using a *Function* and puts the key and element into a Map, throwing an exception if duplicate keys are found.
 |*{injectInto}*      |Returns the final result of all evaluations using as the arguments each element of the collection, and the result of the previous iteration's evaluation.
+|*{isEmpty}*         |Returns true if the collection contains no elements.
 |*{makeString}*      |Converts the collection to a string using optional start, end, and separator strings.
 |*{max}*             |Returns the maximum element using either the natural order or a Comparator.
 |*{maxBy}*           |Gets some attribute from each element and returns the element whose attribute is maximal.
 |*{min}*             |Returns the minimum element using either the natural order or a Comparator.
 |*{minBy}*           |Gets some attribute from each element and returns the element whose attribute is minimal.
+|*{noneSatisfy}*     |Returns true if no elements match a *Predicate*.
+|*{notEmpty}*        |Returns true if the collection contains at least one element.
+|*{partition}*       |Splits collection into two collections based on *Predicate*.
+|*{reduce}*          |Combines all elements into a single result using a *BinaryOperator*, returning an *Optional* that's empty if no elements exist.
 |*{reject}*          |Returns the elements of a collection that do not satisfy a *Predicate*.
 |*{select}*          |Returns the elements of a collection that satisfy a *Predicate*.
+|*{selectInstanceOf}*|Returns the elements of a collection of specified type.
+|*{size}*            |Returns the number of elements in the collection as an int.
 |*{sortThis}***      |Sorts the internal data structure of a *MutableList* using the natural order of the elements or a Comparator.
 |*{sortThisBy}***    |Gets some attribute from each element using a *Function* and sorts the list by the natural order of that attribute.
+|*{tap}*             |Executes a *Procedure* on each element and returns the original collection unchanged.
 |*{toBag}*           |Converts the collection to the default *MutableBag* implementation.
 |*{toImmutable}**    |Returns an immutable collection.
 |*{toList}*          |Converts the collection to a *MutableList* implementation.
 |*{toMap}*           |Converts collection to a *MutableMap* implementation using specified key and value functions.
 |*{toSet}*           |Converts the collection to a *MutableSet* implementation.
+|*{toSortedBag}*     |Converts the collection to a *SortedBag* with elements ordered by their natural ordering.
+|*{toSortedBagBy}*   |Converts the collection to a *SortedBag* with elements ordered using a Function to extract the sorting key.
 |*{toSortedList}*    |Converts the collection to a *MutableList* implementation and sorts it using the natural order of the elements.
 |*{toSortedListBy}*  |Gets some attribute from each element using a *Function* and returns a new list sorted by the natural order of that attribute.
+|*{toSortedMap}*     |Converts the collection to a *SortedMap* using a key *Function* and a value *Function*, with keys ordered by their natural ordering.
 |*{toSortedSet}*     |Converts the collection to a *MutableSortedSet* implementation and sorts it using the natural order of the elements.
 |*{toSortedSetBy}*   |Converts the collection to a *MutableSortedSet* implementation and sorts it based on the natural order of the attributes returned by the *Function*.
 |*{zip}*             |Takes a second *RichIterable* and pairs up all the elements; if one of the two **RichIterable**s is longer, its remaining elements are ignored.
