@@ -102,66 +102,180 @@
 //
 
 
-[cols="1,4",options="header",]
+[cols="1,2,2",options="header",]
 |===
 |{RichIterable} API +
-(except as noted)    |Description
-|*{aggregateBy}*     |Aggregates values in a collection by grouping elements using a *Function groupBy* and then applying a *Function0 zeroValueFactory* and a *Function2 combiner*. Returns a map from group keys to aggregated values.
-|*{aggregateInPlaceBy}*|Similar to *aggregateBy*, but performs aggregation in place using a mutable result container. Uses a *Function groupBy* and a *Procedure2* mutating aggregator to accumulate values without producing intermediate immutable structures.
-|*{allSatisfy}*      |Returns true if all elements satisfy a *Predicate*; short-circuits execution.
-|*{anySatisfy}*      |Returns true if any element satisfies a *Predicate*; short circuits execution.
-|*{appendString}*    |Prints a string representation of this collection onto the given Appendable; prints the string returned by *makeString*.
-|*{asSynchronized}** |Returns a synchronized collection.
-|*{asUnmodifiable}** |Returns an unmodifiable collection.
-|*{chunk}*           |Splits a collection into fixed-size chunks; the final chunk will be smaller if the collection doesn't divide evenly.
-|*{collect}*         |Transforms elements using a *Function* into a new collection; n.
-|*{collectIf}*       |Filter elements of collection that match a *Predicate* and transform then using a *Function*.
-|*{contains}*        |Checks if the collection has an element that equals the given value.
-|*{containsAll}*     |Checks if the collection has all elements from another *Collection*.
-|*{containsAllArguments}*|Checks if the collection has all elements passed as individual arguments.
-|*{containsAllIterable}*|Checks if the collection has all elements from another Iterable.
-|*{count}*           |Returns the number of elements that satisfy a *Predicate*.
-|*{detect}*          |Finds the first element that satisfies a *Predicate*; short circuits execution
-|*{detectIfNone}*    |Finds the first element that satisfies a *Predicate*; returns a *Supplier* result if none found.
-|*{detectOptional}*  |Returns an *Optional* of first element that satitsfied a *Predicate*
-|*{flatCollect}*     |Transforms and flattens elements using a *Function*.
-|*{forEach}*         |Executes a *Procedure* on each element, doesn't return anything
-|*{forEachWithIndex}*|Executes a *Procedure2* for each element, passing both the element and its index position.
-|*{groupBy}*         |Gets a key for each element using a *Function* and puts the key and element into a *Multimap*.
-|*{groupByEach}*     |Special case of *groupBy* used were the *Function* returns a collection; analogous to the difference between collect and *flatCollect*.
-|*{groupByUniqueKey}*|Gets a key for each element using a *Function* and puts the key and element into a Map, throwing an exception if duplicate keys are found.
-|*{injectInto}*      |Returns the final result of all evaluations using as the arguments each element of the collection, and the result of the previous iteration's evaluation.
-|*{isEmpty}*         |Returns true if the collection contains no elements.
-|*{makeString}*      |Converts the collection to a string using optional start, end, and separator strings.
-|*{max}*             |Returns the maximum element using either the natural order or a Comparator.
-|*{maxBy}*           |Gets some attribute from each element and returns the element whose attribute is maximal.
-|*{min}*             |Returns the minimum element using either the natural order or a Comparator.
-|*{minBy}*           |Gets some attribute from each element and returns the element whose attribute is minimal.
-|*{noneSatisfy}*     |Returns true if no elements match a *Predicate*.
-|*{notEmpty}*        |Returns true if the collection contains at least one element.
-|*{partition}*       |Splits collection into two collections based on *Predicate*.
-|*{reduce}*          |Combines all elements into a single result using a *BinaryOperator*, returning an *Optional* that's empty if no elements exist.
-|*{reject}*          |Returns the elements of a collection that do not satisfy a *Predicate*.
-|*{select}*          |Returns the elements of a collection that satisfy a *Predicate*.
-|*{selectInstanceOf}*|Returns the elements of a collection of specified type.
-|*{size}*            |Returns the number of elements in the collection as an int.
-|*{sortThis}***      |Sorts the internal data structure of a *MutableList* using the natural order of the elements or a Comparator.
-|*{sortThisBy}***    |Gets some attribute from each element using a *Function* and sorts the list by the natural order of that attribute.
-|*{tap}*             |Executes a *Procedure* on each element and returns the original collection unchanged.
-|*{toBag}*           |Converts the collection to the default *MutableBag* implementation.
-|*{toImmutable}**    |Returns an immutable collection.
-|*{toList}*          |Converts the collection to a *MutableList* implementation.
-|*{toMap}*           |Converts collection to a *MutableMap* implementation using specified key and value functions.
-|*{toSet}*           |Converts the collection to a *MutableSet* implementation.
-|*{toSortedBag}*     |Converts the collection to a *SortedBag* with elements ordered by their natural ordering.
-|*{toSortedBagBy}*   |Converts the collection to a *SortedBag* with elements ordered using a Function to extract the sorting key.
-|*{toSortedList}*    |Converts the collection to a *MutableList* implementation and sorts it using the natural order of the elements.
-|*{toSortedListBy}*  |Gets some attribute from each element using a *Function* and returns a new list sorted by the natural order of that attribute.
-|*{toSortedMap}*     |Converts the collection to a *SortedMap* using a key *Function* and a value *Function*, with keys ordered by their natural ordering.
-|*{toSortedSet}*     |Converts the collection to a *MutableSortedSet* implementation and sorts it using the natural order of the elements.
-|*{toSortedSetBy}*   |Converts the collection to a *MutableSortedSet* implementation and sorts it based on the natural order of the attributes returned by the *Function*.
-|*{zip}*             |Takes a second *RichIterable* and pairs up all the elements; if one of the two **RichIterable**s is longer, its remaining elements are ignored.
-|*{zipWithIndex}*    |Zips the collection with the Integer indexes 0 to n-1.
+(except as noted)
+|Signature
+|Description
+|{aggregateBy}
+|<K, V> MapIterable<V> aggregateBy(Function<? super T, ? extends K> groupBy, Function0<? extends V> factory, Function2<? super V, ? super T, ? extends V> combiner)
+|Aggregates values by grouping elements using the `groupBy` function, then applying the `factory` and `combiner` functions.
+|{aggregateInPlaceBy}
+|<K, V> MapIterable<K, V> aggregateInPlaceBy(Function<? super T, ? extends K> groupBy, Function0<? extends V> factory, Procedure2<? super V, ? super T> aggregator)
+|Similar to aggregateBy, but performs aggregation in place using the `aggregator` procedure.
+|{allSatisfy}
+|boolean allSatisfy(Predicate<? super T> predicate)
+|Returns true if all elements satisfy the `predicate`; short-circuits execution.
+|{anySatisfy}
+|boolean anySatisfy(Predicate<? super T> predicate)
+|Returns true if any element satisfies the `predicate`; short circuits execution.
+|{appendString}
+|void appendString(Appendable appendable)
+|Prints a string representation of this collection onto the given `appendable`.
+|*{asSynchronized}**
+|MutableCollection<T> asSynchronized()
+|Returns a synchronized collection.
+|*{asUnmodifiable}**
+|MutableCollection<T> asUnmodifiable()
+|Returns an unmodifiable collection.
+|{chunk}
+|RichIterable<RichIterable<T>> chunk(int size)
+|Splits a collection into fixed-size chunks of the given `size`.
+|{collect}
+|<V> RichIterable<V> collect(Function<? super T, ? extends V> function)
+|Transforms elements using the `function` into a new collection.
+|{collectIf}
+|<V> RichIterable<V> collectIf(Predicate<? super T> predicate, Function<? super T, ? extends V> function)
+|Filters and transforms elements using the `predicate` and `function`.
+|{contains}
+|boolean contains(Object object)
+|Checks if the collection has an element that equals the given `object`.
+|{containsAll}
+|boolean containsAll(Collection<?> source)
+|Checks if the collection has all elements from the source Collection.
+|{containsAllArguments}
+|boolean containsAllArguments(Object... elements)
+|Checks if the collection has all elements passed as individual arguments.
+|{containsAllIterable}
+|boolean containsAllIterable(Iterable<?> source)
+|Checks if the collection has all elements from the source Iterable.
+|{count}
+|int count(Predicate<? super T> predicate)
+|Returns the number of elements that satisfy the predicate.
+|{detect}
+|T detect(Predicate<? super T> predicate)
+|Finds the first element that satisfies the predicate; short circuits execution.
+|{detectIfNone}
+|T detectIfNone(Predicate<? super T> predicate, Function0<? extends T> function)
+|Finds the first element that satisfies the predicate; returns the result of the function if none found.
+|{detectOptional}
+|Optional<T> detectOptional(Predicate<? super T> predicate)
+|Returns an Optional of the first element that satisfies the predicate.
+|{flatCollect}
+|<V> RichIterable<V> flatCollect(Function<? super T, ? extends Iterable<V>> function)
+|Transforms and flattens elements using the function.
+|{forEach}
+|void forEach(Procedure<? super T> procedure)
+|Executes the procedure on each element.
+|{forEachWithIndex}
+|void forEachWithIndex(ObjectIntProcedure<? super T> objectIntProcedure)
+|Executes a `objectIntProcedure` for each element, passing both the element and its index position.
+|{groupBy}
+|<V> Multimap<V, T> groupBy(Function<? super T, ? extends V> function)
+|Groups elements into a Multimap based on the key function.
+|{groupByEach}
+|<V> Multimap<V, T> groupByEach(Function<? super T, ? extends Iterable<V>> function)
+|Groups elements where the function returns a collection of keys for each element.
+|{groupByUniqueKey}
+|<V> Map<V, T> groupByUniqueKey(Function<? super T, ? extends V> function)
+|Groups elements into a Map using the function, throwing an exception if duplicate keys are found.
+|{injectInto}
+|<IV> IV injectInto(IV initialValue, Function2<? super IV, ? super T, ? extends IV> function)
+|Aggregates elements into a single result by applying the function iteratively, starting with initialValue.
+|{isEmpty}
+|boolean isEmpty()
+|Returns true if the collection contains no elements.
+|{makeString}
+|String makeString(...)
+|Converts the collection to a string with optional delimiters.
+|{max}
+|T max(Comparator<? super T> comparator)
+|Returns the maximum element using the comparator.
+|{maxBy}
+|<V extends Comparable<? super V>> T maxBy(Function<? super T, ? extends V> function)
+|Returns the element with the maximal attribute extracted by the function.
+|{min}
+|T min(Comparator<? super T> comparator)
+|Returns the minimum element using the comparator.
+|{minBy}
+|<V extends Comparable<? super V>> T minBy(Function<? super T, ? extends V> function)
+|Returns the element with the minimal attribute extracted by the function.
+|{noneSatisfy}
+|boolean noneSatisfy(Predicate<? super T> predicate)
+|Returns true if no elements match the predicate.
+|{notEmpty}
+|boolean notEmpty()
+|Returns true if the collection contains at least one element.
+|{partition}
+|PartitionIterable<T> partition(Predicate<? super T> predicate)
+|Splits collection into two collections based on the predicate.
+|{reduce}
+|Optional<T> reduce(BinaryOperator<T> accumulator)
+|Combines all elements into a single result using the accumulator, returning an Optional.
+|{reject}
+|RichIterable<T> reject(Predicate<? super T> predicate)
+|Returns elements that do not satisfy the predicate.
+|{select}
+|RichIterable<T> select(Predicate<? super T> predicate)
+|Returns elements that satisfy the predicate.
+|{selectInstanceOf}
+|<S> RichIterable<S> selectInstanceOf(Class<S> clazz)
+|Returns elements that are an instance of the specified clazz.
+|{size}
+|int size()
+|Returns the number of elements in the collection.
+|{sortThis}**
+|MutableList<T> sortThis(Comparator<? super T> comparator)
+|Sorts the MutableList in place using the comparator.
+|{sortThisBy}**
+|<V extends Comparable<? super V>> MutableList<T> sortThisBy(Function<? super T, ? extends V> function)
+|Sorts the MutableList in place based on an attribute from the function.
+|{tap}
+|RichIterable<T> tap(Procedure<? super T> procedure)
+|Executes the procedure on each element and returns the original collection.
+|{toBag}
+|MutableBag<T> toBag()
+|Converts the collection to a MutableBag.
+|*{toImmutable}**
+|ImmutableCollection<T> toImmutable()
+|Returns an immutable copy of the collection.
+|{toList}
+|MutableList<T> toList()
+|Converts the collection to a MutableList.
+|{toMap}
+|<K, V> MutableMap<K, V> toMap(Function<? super T, ? extends K> key, Function<? super T, ? extends V> value)
+|Converts collection to a MutableMap using the key and value functions.
+|{toSet}
+|MutableSet<T> toSet()
+|Converts the collection to a MutableSet.
+|{toSortedBag}
+|MutableSortedBag<T> toSortedBag(Comparator<? super T> comparator)
+|Converts the collection to a SortedBag using the comparator.
+|{toSortedBagBy}
+|<V extends Comparable<? super V>> MutableSortedBag<T> toSortedBagBy(Function<? super T, ? extends V> function)
+|Converts the collection to a SortedBag ordered by an attribute from the function.
+|{toSortedList}
+|MutableList<T> toSortedList(Comparator<? super T> comparator)
+|Converts the collection to a sorted MutableList using the comparator.
+|{toSortedListBy}
+|<V extends Comparable<? super V>> MutableList<T> toSortedListBy(Function<? super T, ? extends V> function)
+|Converts the collection to a MutableList sorted by an attribute from the function.
+|{toSortedMap}
+|<K, V> MutableSortedMap<K, V> toSortedMap(Function<? super T, ? extends K> key, Function<? super T, ? extends V> value)
+|Converts the collection to a SortedMap using the key and value functions.
+|{toSortedSet}
+|MutableSortedSet<T> toSortedSet(Comparator<? super T> comparator)
+|Converts the collection to a sorted MutableSortedSet using the comparator.
+|{toSortedSetBy}
+|<V extends Comparable<? super V>> MutableSortedSet<T> toSortedSetBy(Function<? super T, ? extends V> function)
+|Converts the collection to a MutableSortedSet sorted by an attribute from the function.
+|{zip}
+|<S> RichIterable<Pair<T, S>> zip(Iterable<S> that)
+|Pairs elements from this collection with the that iterable.
+|{zipWithIndex}
+|RichIterable<Pair<T, Integer>> zipWithIndex()
+|Pairs each element with its index.
 |===
 +++*+++ on *MutableCollection* +
 +++**+++ on *MutableList*
